@@ -4,9 +4,10 @@ import os
 
 app = Flask(__name__)
 
-# קבלת טוקן מהסביבה
-HUGGINGFACE_API_TOKEN = os.environ.get("HUGGINGFACE_API_TOKEN")
-HUGGINGFACE_API_URL = "https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-alpha"
+# קבלת הטוקן מהסביבה
+TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY")
+TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
+TOGETHER_MODEL = "mistralai/Mixtral-8x7B-Instruct-v0.1"  # אפשר לשנות למודל אחר מ together.ai
 
 # מידע מותאם לספרייה
 business_info = (
@@ -29,28 +30,27 @@ def ask():
     user_message = data.get("message", "")
 
     headers = {
-        "Authorization": f"Bearer {HUGGINGFACE_API_TOKEN}",
+        "Authorization": f"Bearer {TOGETHER_API_KEY}",
         "Content-Type": "application/json"
     }
 
     payload = {
-        "inputs": f"{business_info}\n\nשאלה: {user_message}",
-        "parameters": {
-            "max_new_tokens": 100,
-            "return_full_text": False
-        }
+        "model": TOGETHER_MODEL,
+        "messages": [
+            {"role": "system", "content": business_info},
+            {"role": "user", "content": user_message}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 100
     }
 
     try:
-        response = requests.post(HUGGINGFACE_API_URL, headers=headers, json=payload)
+        response = requests.post(TOGETHER_API_URL, headers=headers, json=payload)
         response.raise_for_status()
         output = response.json()
 
-        # הוצאת התשובה מהתגובה
-        if isinstance(output, list) and "generated_text" in output[0]:
-            answer = output[0]["generated_text"]
-        elif "error" in output:
-            answer = f"שגיאה מהמודל: {output['error']}"
+        if "choices" in output and output["choices"]:
+            answer = output["choices"][0]["message"]["content"].strip()
         else:
             answer = "לא התקבלה תשובה מהמודל."
 
@@ -60,4 +60,3 @@ def ask():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
-     
