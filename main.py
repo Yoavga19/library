@@ -4,10 +4,10 @@ import os
 
 app = Flask(__name__)
 
-OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
-OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
+# קח את הטוקן שלך מה־Environment ב־Render
+HUGGINGFACE_API_TOKEN = os.environ.get("HUGGINGFACE_API_TOKEN")
 
-# המידע שאתה רוצה שהבוט ישתמש בו
+# מידע קבוע שהבוט משתמש בו
 business_info = (
     "אתה בוט של ספרייה בשם 'ספריית גבעתיים'.\n"
     "ענה רק לפי המידע הבא:\n"
@@ -15,14 +15,12 @@ business_info = (
     "- כתובת: רחוב הרצל 10, גבעתיים\n"
     "- מחיר: הכניסה חופשית\n"
     "- טלפון: 03-1234567\n"
-    "אל תענה על שאלות שלא קשורות לספרייה אבל אם יש משהו שקשור חלקית אתה יכול על תענה אותו דבר כל  הזמן ותהיה יותר אנושי, תענה גן על שאלות יותר ספציפיות הקשורות לספרייה. אם אין לך מידע על שאלה מסויימת בנוגע לספרייה אתה יכול להשלים לפי מה שנראה לך נכון '."
+    "ענה בצורה אנושית ונעימה. אם אין מידע מדויק, נסה להעריך לפי ההיגיון."
 )
-
 
 @app.route("/")
 def index():
     return render_template("index.html")
-
 
 @app.route("/ask", methods=["POST"])
 def ask():
@@ -30,32 +28,24 @@ def ask():
     user_message = data.get("message", "")
 
     headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-        "Content-Type": "application/json"
+        "Authorization": f"Bearer {HUGGINGFACE_API_TOKEN}"
     }
 
     payload = {
-        "model":
-        "openai/gpt-3.5-turbo",  # מודל שיודע עברית טוב
-        "messages": [{
-            "role": "system",
-            "content": business_info
-        }, {
-            "role": "user",
-            "content": user_message
-        }]
+        "inputs": f"שאלה: {user_message}\n{business_info}\nתשובה:"
     }
 
-    try:
-        response = requests.post(OPENROUTER_API_URL,
-                                 headers=headers,
-                                 json=payload)
-        response.raise_for_status()
-        answer = response.json()["choices"][0]["message"]["content"]
-        return jsonify({"answer": answer})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    response = requests.post(
+        "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1",
+        headers=headers,
+        json=payload
+    )
 
+    if response.status_code == 200:
+        answer = response.json()[0]["generated_text"].split("תשובה:")[-1].strip()
+        return jsonify({"answer": answer})
+    else:
+        return jsonify({"error": "שגיאה בקבלת תשובה מהמודל"}), 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
