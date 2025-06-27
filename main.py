@@ -4,8 +4,11 @@ import os
 
 app = Flask(__name__)
 
+# קבלת טוקן מהסביבה
 HUGGINGFACE_API_TOKEN = os.environ.get("HUGGINGFACE_API_TOKEN")
+HUGGINGFACE_API_URL = "https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-alpha"
 
+# מידע מותאם לספרייה
 business_info = (
     "אתה בוט של ספרייה בשם 'ספריית גבעתיים'.\n"
     "ענה רק לפי המידע הבא:\n"
@@ -13,7 +16,7 @@ business_info = (
     "- כתובת: רחוב הרצל 10, גבעתיים\n"
     "- מחיר: הכניסה חופשית\n"
     "- טלפון: 03-1234567\n"
-    "ענה בצורה אנושית ונעימה. אם אין מידע מדויק, נסה להעריך לפי ההיגיון."
+    "אל תענה על שאלות שלא קשורות לספרייה. אם יש משהו שקשור חלקית, תענה בצורה אנושית ונעימה."
 )
 
 @app.route("/")
@@ -26,37 +29,35 @@ def ask():
     user_message = data.get("message", "")
 
     headers = {
-        "Authorization": f"Bearer {HUGGINGFACE_API_TOKEN}"
+        "Authorization": f"Bearer {HUGGINGFACE_API_TOKEN}",
+        "Content-Type": "application/json"
     }
 
     payload = {
-        "inputs": f"שאלה: {user_message}\n{business_info}\nתשובה:"
+        "inputs": f"{business_info}\n\nשאלה: {user_message}",
+        "parameters": {
+            "max_new_tokens": 100,
+            "return_full_text": False
+        }
     }
 
     try:
-        response = requests.post(
-            "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1",
-            headers=headers,
-            json=payload,
-            timeout=30
-        )
+        response = requests.post(HUGGINGFACE_API_URL, headers=headers, json=payload)
         response.raise_for_status()
+        output = response.json()
 
-        answer = response.json()[0]["generated_text"].split("תשובה:")[-1].strip()
+        # הוצאת התשובה מהתגובה
+        if isinstance(output, list) and "generated_text" in output[0]:
+            answer = output[0]["generated_text"]
+        elif "error" in output:
+            answer = f"שגיאה מהמודל: {output['error']}"
+        else:
+            answer = "לא התקבלה תשובה מהמודל."
+
         return jsonify({"answer": answer})
-
-    except requests.exceptions.Timeout:
-        print("Error: Request timed out")
-        return jsonify({"error": "הבקשה לשרת לקחה יותר מדי זמן, אנא נסה שוב."}), 504
-
-    except requests.exceptions.HTTPError as e:
-        print(f"HTTP error occurred: {e} - Response: {response.text}")
-        return jsonify({"error": "אירעה שגיאה בשרת, אנא נסה מאוחר יותר."}), 500
-
     except Exception as e:
-        print(f"Unexpected error: {e}")
-        return jsonify({"error": "אירעה שגיאה לא צפויה, אנא נסה שוב."}), 500
+        return jsonify({"error": f"שגיאה: {str(e)}"}), 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
- 
+
