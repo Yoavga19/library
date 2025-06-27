@@ -1,0 +1,33 @@
+import requests
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+HUGGINGFACE_API_TOKEN = "הכנס כאן את המפתח שלך"
+
+@app.route("/ask", methods=["POST"])
+def ask():
+    user_input = request.json.get("message")
+
+    headers = {
+        "Authorization": f"Bearer {HUGGINGFACE_API_TOKEN}"
+    }
+
+    data = {
+        "inputs": f"שאלה: {user_input}\nתשובה:"
+    }
+
+    response = requests.post(
+        "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1",
+        headers=headers,
+        json=data
+    )
+
+    if response.status_code == 200:
+        answer = response.json()[0]["generated_text"].split("תשובה:")[-1].strip()
+        return jsonify({"answer": answer})
+    else:
+        return jsonify({"error": "שגיאה בשירות"}), 500
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=3000)
