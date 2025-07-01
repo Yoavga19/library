@@ -121,7 +121,7 @@ input, button {
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: white;
+  color: black;
   font-size: 3rem;
   cursor: pointer;
   z-index: 10;
@@ -129,11 +129,11 @@ input, button {
 }
 
 .carousel-btn.prev {
-  left: -30px; /* מחוץ למסגרת */
+  left: -50px; /* מחוץ למסגרת */
 }
 
 .carousel-btn.next {
-  right: -30px; /* מחוץ למסגרת */
+  right: -50px; /* מחוץ למסגרת */
 }
 
 
