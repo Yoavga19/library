@@ -9,77 +9,77 @@
   <header>
     <h1>NextWave AI & Web</h1>
     <nav>
+      <a href="/">Home</a>
       <a href="#services">Services</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
 
-  <main>
-    <section class="intro">
-      <h2>Custom Websites & AI Chatbots</h2>
-      <p>Modern, responsive websites and powerful AI chatbots to meet your business needs.</p>
+  <main class="flex-container">
+    <section class="content-area">
+      <h2>Custom Websites & Smart AI Chatbots</h2>
+      <p>
+        We offer modern, responsive websites tailored to your business needs, and powerful AI chatbots that elevate user engagement.
+        Fast delivery, expert support, and full customization.
+      </p>
+      <a href="#services" class="button">View Services</a>
     </section>
 
-    <section id="chat-section">
-      <div class="chat-box">
-        <h3>💬 Chat with our bot</h3>
-        <div id="chat-log"></div>
-        <form id="chat-form">
-          <input type="text" id="chat-input" placeholder="Type your message..." required />
-          <button type="submit">Send</button>
-        </form>
-      </div>
-    </section>
-
-    <section id="services">
-      <h2>Our Services</h2>
-      <ul>
-        <li>✔ Custom websites (landing pages, portfolios, businesses)</li>
-        <li>✔ AI chatbots tailored to your needs</li>
-        <li>✔ Full responsiveness and modern UI</li>
-        <li>✔ Optional payment integration & hosting support</li>
-      </ul>
-    </section>
-
-    <section id="projects">
-      <h2>Projects</h2>
-      <div class="carousel">
-        <button class="carousel-btn prev">&#10094;</button>
-        <div class="carousel-track">
-          <img src="/static/project1.png" alt="Project 1" />
-          <img src="/static/project2.png" alt="Project 2" />
-          <img src="/static/project3.png" alt="Project 3" />
-        </div>
-        <button class="carousel-btn next">&#10095;</button>
-      </div>
-    </section>
-
-    <section id="contact">
-      <h2>Contact Us</h2>
-      <p>Email: <a href="mailto:nextwaveagency@gmail.com">nextwaveagency@gmail.com</a></p>
-      <p>Fiverr: <a href="https://www.fiverr.com/yourusername" target="_blank">Visit our Fiverr</a></p>
-    </section>
+    <aside class="chat-area">
+      <h3>💬 NextWave Bot</h3>
+      <div id="chat-box"></div>
+      <form id="chat-form">
+        <input type="text" id="user-input" placeholder="Ask me anything..." required />
+        <button type="submit">Send</button>
+      </form>
+    </aside>
   </main>
 
+  <section id="projects" class="projects-section">
+    <h2>💼 Projects</h2>
+    <div class="project-gallery">
+      <img src="/static/project1.jpg" alt="Project 1" />
+      <img src="/static/project2.jpg" alt="Project 2" />
+      <img src="/static/project3.jpg" alt="Project 3" />
+    </div>
+  </section>
+
+  <footer id="contact" class="footer">
+    <h2>📬 Contact Us</h2>
+    <p>Have questions or want to order?</p>
+    <p>
+      Email: <a href="mailto:yoavwebdev@gmail.com">yoavwebdev@gmail.com</a><br />
+      Fiverr: <a href="https://www.fiverr.com/yoavgablinger" target="_blank">Visit our Fiverr profile</a>
+    </p>
+  </footer>
+
   <script>
+    const chatBox = document.getElementById("chat-box");
     const form = document.getElementById("chat-form");
-    const input = document.getElementById("chat-input");
-    const log = document.getElementById("chat-log");
+    const input = document.getElementById("user-input");
+
+    function addMessage(role, text) {
+      const msg = document.createElement("div");
+      msg.className = role;
+      msg.textContent = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const message = input.value;
-      log.innerHTML += `<div class="user-msg">${message}</div>`;
+      const message = input.value.trim();
+      if (!message) return;
+      addMessage("user", message);
       input.value = "";
       const res = await fetch("/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({ message }),
       });
       const data = await res.json();
-      log.innerHTML += `<div class="bot-msg">${data.answer}</div>`;
-      log.scrollTop = log.scrollHeight;
+      addMessage("bot", data.answer || "Error");
     });
 
     input.addEventListener("keypress", (e) => {
@@ -88,28 +88,6 @@
         form.dispatchEvent(new Event("submit"));
       }
     });
-
-    // Carousel Logic
-    const track = document.querySelector(".carousel-track");
-    const prevBtn = document.querySelector(".carousel-btn.prev");
-    const nextBtn = document.querySelector(".carousel-btn.next");
-    let index = 0;
-
-    function updateCarousel() {
-      const width = track.children[0].offsetWidth;
-      track.style.transform = `translateX(-${index * width}px)`;
-    }
-
-    nextBtn.onclick = () => {
-      index = (index + 1) % track.children.length;
-      updateCarousel();
-    };
-
-    prevBtn.onclick = () => {
-      index = (index - 1 + track.children.length) % track.children.length;
-      updateCarousel();
-    };
   </script>
 </body>
 </html>
-
