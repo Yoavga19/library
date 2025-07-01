@@ -7,9 +7,9 @@ app = Flask(__name__)
 # קבלת הטוקן מהסביבה
 TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY")
 TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
-TOGETHER_MODEL = "mistralai/Mixtral-8x7B-Instruct-v0.1"  # אפשר לשנות למודל אחר מ together.ai
+TOGETHER_MODEL = "mistralai/Mixtral-8x7B-Instruct-v0.1"
 
-# מידע מותאם 
+# מידע מותאם לעסק
 business_info = (
     "You are a chatbot created by the company 'NextWave AI & Web'. "
     "The company specializes in two main services: "
@@ -29,10 +29,13 @@ business_info = (
     "Be helpful, polite, and clear at all times."
 )
 
-
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/services")
+def services():
+    return render_template("services.html")
 
 @app.route("/ask", methods=["POST"])
 def ask():
@@ -62,11 +65,11 @@ def ask():
         if "choices" in output and output["choices"]:
             answer = output["choices"][0]["message"]["content"].strip()
         else:
-            answer = "לא התקבלה תשובה מהמודל."
+            answer = "No response from the model."
 
         return jsonify({"answer": answer})
     except Exception as e:
-        return jsonify({"error": f"שגיאה: {str(e)}"}), 500
+        return jsonify({"error": f"Error: {str(e)}"}), 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
