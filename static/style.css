@@ -115,6 +115,16 @@ input, button {
   flex-shrink: 0;
 }
 
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex;
+  /* ... */
+}
+
 .carousel-btn {
   position: absolute;
   top: 50%;
@@ -129,9 +139,9 @@ input, button {
 }
 
 .carousel-btn.prev {
-  left: 10px; /* או כמה שאתה רוצה */
+  left: 10px;
 }
 
 .carousel-btn.next {
-  right: 10px; /* או כמה שאתה רוצה */
+  right: 10px;
 }
