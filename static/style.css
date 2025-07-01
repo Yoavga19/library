@@ -139,9 +139,9 @@ input, button {
 }
 
 .carousel-btn.prev {
-  left: 10px;
+  left: 40px;
 }
 
 .carousel-btn.next {
-  right: 10px;
+  right: 40px;
 }
