@@ -1,8 +1,10 @@
+/* קובץ: templates/index.html */
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>NextWave AI & Web Chatbot</title>
+  <title>NextWave AI & Web</title>
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
@@ -11,15 +13,26 @@
     <nav>
       <a href="/">Home</a>
       <a href="/services">Services</a>
+      <a href="/projects">Projects</a>
+      <a href="mailto:yourname@example.com">Contact</a>
     </nav>
   </header>
 
-  <main>
-    <div id="chat-box"></div>
-    <form id="chat-form">
-      <input type="text" id="user-input" placeholder="Ask me anything..." required />
-      <button type="submit">Send</button>
-    </form>
+  <main class="flex-container">
+    <section class="content-area">
+      <h2>Custom Websites & Smart AI Chatbots</h2>
+      <p>We offer modern, responsive websites tailored to your business needs, and powerful AI chatbots that elevate user engagement. Fast delivery, expert support, and full customization.</p>
+      <a href="/services" class="button">View Services</a>
+    </section>
+
+    <aside class="chat-area">
+      <h3>💬 NextWave Bot</h3>
+      <div id="chat-box"></div>
+      <form id="chat-form">
+        <input type="text" id="user-input" placeholder="Ask me anything..." required />
+        <button type="submit">Send</button>
+      </form>
+    </aside>
   </main>
 
   <script>
@@ -50,7 +63,6 @@
       addMessage("bot", data.answer || "Error");
     });
 
-    // שליחה עם Enter בלבד (כמו וואטסאפ)
     input.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -60,4 +72,3 @@
   </script>
 </body>
 </html>
-
