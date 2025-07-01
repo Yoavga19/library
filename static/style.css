@@ -116,7 +116,7 @@ input, button {
 }
 
 .carousel-btn {
-  position: relative;
+  position: absolute;
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -129,11 +129,9 @@ input, button {
 }
 
 .carousel-btn.prev {
-  left: -25px; /* מחוץ למסגרת */
+  left: 10px; /* או כמה שאתה רוצה */
 }
 
 .carousel-btn.next {
-  right: -25px; /* מחוץ למסגרת */
+  right: 10px; /* או כמה שאתה רוצה */
 }
-
-
