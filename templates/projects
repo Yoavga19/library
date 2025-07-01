@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Our Projects - NextWave</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8" />
+  <title>Projects - NextWave</title>
+  <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
   <header>
@@ -11,18 +11,18 @@
     <nav>
       <a href="/">Home</a>
       <a href="/services">Services</a>
+      <a href="/projects">Projects</a>
+      <a href="mailto:yourname@example.com">Contact</a>
     </nav>
   </header>
 
-  <main>
-    <section class="projects-gallery">
-      <h2>Example Projects</h2>
-      <div class="gallery">
-        <img src="/static/project1.jpg" alt="Project 1" />
-        <img src="/static/project2.jpg" alt="Project 2" />
-        <img src="/static/project3.jpg" alt="Project 3" />
-      </div>
-    </section>
+  <main class="content">
+    <h2>Recent Work</h2>
+    <div class="project-gallery">
+      <img src="/static/project1.jpg" alt="Project 1" />
+      <img src="/static/project2.jpg" alt="Project 2" />
+      <img src="/static/project3.jpg" alt="Project 3" />
+    </div>
   </main>
 </body>
 </html>
