@@ -1,56 +1,135 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <title>צ׳אט בוט AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NextWave AI & Web</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
-    #chatbox { width: 100%; height: 400px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; background: #fff; }
-    input { width: 80%; padding: 10px; }
-    button { padding: 10px 20px; }
-    .message { margin-bottom: 10px; }
-    .user { font-weight: bold; color: blue; }
-    .bot { font-weight: bold; color: green; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f9;
+      color: #333;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    section {
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+    .services, .chatbot-section, .fiverr-section {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+    .services h2, .chatbot-section h2, .fiverr-section h2 {
+      margin-top: 0;
+    }
+    .chat-box {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .chat-box input {
+      flex: 1;
+      padding: 0.8rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .chat-box button {
+      padding: 0.8rem 1.2rem;
+      border: none;
+      border-radius: 5px;
+      background: #2c3e50;
+      color: white;
+      cursor: pointer;
+    }
+    #response {
+      margin-top: 1rem;
+      background: #ecf0f1;
+      padding: 1rem;
+      border-radius: 5px;
+    }
+    .fiverr-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.8rem 1.5rem;
+      background: #1dbf73;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .fiverr-link:hover {
+      background: #17a65e;
+    }
   </style>
 </head>
+
 <body>
-  <h2>🤖 צ׳אט בוט AI</h2>
-  <div id="chatbox"></div>
-  <br />
-  <input type="text" id="userInput" placeholder="שאל אותי משהו..." />
-  <button onclick="sendMessage()">שלח</button>
+  <header>
+    <h1>NextWave AI & Web</h1>
+    <p>Your solution for smart bots and stunning websites</p>
+  </header>
+
+  <section class="services">
+    <h2>Our Services</h2>
+    <ul>
+      <li><strong>Custom Website Development</strong> – Responsive, fast, and tailored HTML websites for your brand.</li>
+      <li><strong>AI Chatbot Creation</strong> – Smart bots for customer support, FAQs, or business automation.</li>
+    </ul>
+  </section>
+
+  <section class="fiverr-section">
+    <h2>Hire Me on Fiverr</h2>
+    <p>If you're interested in working with me, you can place your order through Fiverr:</p>
+    <a class="fiverr-link" href="https://www.fiverr.com/your_username" target="_blank">Visit My Fiverr Page</a>
+  </section>
+
+  <section class="chatbot-section">
+    <h2>Ask our AI Assistant</h2>
+    <div class="chat-box">
+      <input type="text" id="userInput" placeholder="Ask me anything about our services...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+    <div id="response"></div>
+  </section>
 
   <script>
     async function sendMessage() {
-      const input = document.getElementById("userInput");
-      const message = input.value;
-      if (!message.trim()) return;
-
-      addMessage('אתה', message, 'user');
-      input.value = '';
+      const message = document.getElementById("userInput").value;
+      const responseDiv = document.getElementById("response");
+      responseDiv.innerHTML = "Sending...";
 
       const response = await fetch("/ask", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({ message })
       });
 
       const data = await response.json();
       if (data.answer) {
-        addMessage('בוט', data.answer, 'bot');
+        responseDiv.innerHTML = `<strong>Bot:</strong> ${data.answer}`;
       } else {
-        addMessage('שגיאה', data.error || "בעיה לא ידועה", 'bot');
+        responseDiv.innerHTML = `<strong>Error:</strong> ${data.error}`;
       }
-    }
-
-    function addMessage(sender, text, cls) {
-      const chatbox = document.getElementById("chatbox");
-      const div = document.createElement("div");
-      div.className = `message ${cls}`;
-      div.innerHTML = `<span class='${cls}'>${sender}:</span> ${text}`;
-      chatbox.appendChild(div);
-      chatbox.scrollTop = chatbox.scrollHeight;
     }
   </script>
 </body>
+
 </html>
