@@ -4,29 +4,22 @@ import os
 
 app = Flask(__name__)
 
-# קבלת הטוקן מהסביבה
+# טוקנים מהסביבה
+HUGGINGFACE_API_TOKEN = os.environ.get("HUGGINGFACE_API_TOKEN")
+HUGGINGFACE_API_URL = "https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-alpha"
+
 TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY")
 TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
 TOGETHER_MODEL = "mistralai/Mixtral-8x7B-Instruct-v0.1"
 
-# מידע מותאם לעסק
+# מידע עסקי
 business_info = (
-    "You are a chatbot created by the company 'NextWave AI & Web'. "
-    "The company specializes in two main services: "
-    "1. Custom website development using HTML/CSS/JS. "
-    "2. Smart AI chatbot creation using powerful language models. "
-    "Pricing varies based on complexity: "
-    "- Basic website (single static page): from $80. "
-    "- Full business website (multiple pages with menu, gallery, contact, etc.): $120–$200. "
-    "- Adding an AI chatbot to a website: +$40. "
-    "- Standalone chatbot development (without website): $60–$120 depending on features. "
-    "All services include responsive design, language customization, and optional deployment to Render or GitHub. "
-    "Extra features available: payment integration, forms, APIs, user dashboards, and more (upon request). "
-    "You, as the chatbot, were built by the company to help customers and answer questions about these services. "
-    "You should only answer questions related to the services listed above. "
-    "If unsure, you may estimate politely, but always stay professional and avoid making up false information. "
-    "For orders or more details, users can visit our Fiverr page: https://www.fiverr.com/yoavgablinger. "
-    "Be helpful, polite, and clear at all times."
+    "You are a helpful assistant for a company named 'NextWave AI & Web'. "
+    "We offer custom website development (starting at $80), AI chatbot building (starting at $100), "
+    "e-commerce integration, and more. Response time is fast and support is professional. "
+    "You were built by NextWave AI & Web. For pricing and orders visit our Fiverr page: "
+    "https://www.fiverr.com/yoavgablinger/build-a-custom-ai-chatbot-in-python-using-your-chosen-api. "
+    "Only respond about these services and always be polite and informative."
 )
 
 @app.route("/")
@@ -40,18 +33,31 @@ def projects():
 @app.route("/services")
 def services():
     return render_template("services.html")
-    
+
 @app.route("/ask", methods=["POST"])
 def ask():
     data = request.get_json()
     user_message = data.get("message", "")
 
-    headers = {
+    huggingface_headers = {
+        "Authorization": f"Bearer {HUGGINGFACE_API_TOKEN}",
+        "Content-Type": "application/json"
+    }
+
+    together_headers = {
         "Authorization": f"Bearer {TOGETHER_API_KEY}",
         "Content-Type": "application/json"
     }
 
-    payload = {
+    huggingface_payload = {
+        "inputs": f"{business_info}\n\nQuestion: {user_message}",
+        "parameters": {
+            "max_new_tokens": 100,
+            "return_full_text": False
+        }
+    }
+
+    together_payload = {
         "model": TOGETHER_MODEL,
         "messages": [
             {"role": "system", "content": business_info},
@@ -62,18 +68,29 @@ def ask():
     }
 
     try:
-        response = requests.post(TOGETHER_API_URL, headers=headers, json=payload)
+        response = requests.post(TOGETHER_API_URL, headers=together_headers, json=together_payload)
         response.raise_for_status()
         output = response.json()
-
         if "choices" in output and output["choices"]:
             answer = output["choices"][0]["message"]["content"].strip()
         else:
-            answer = "No response from the model."
-
-        return jsonify({"answer": answer})
+            answer = "No answer received from model."
     except Exception as e:
-        return jsonify({"error": f"Error: {str(e)}"}), 500
+        try:
+            response = requests.post(HUGGINGFACE_API_URL, headers=huggingface_headers, json=huggingface_payload)
+            response.raise_for_status()
+            output = response.json()
+            if isinstance(output, list) and "generated_text" in output[0]:
+                answer = output[0]["generated_text"]
+            elif "error" in output:
+                answer = f"Model error: {output['error']}"
+            else:
+                answer = "No answer received from model."
+        except Exception as e2:
+            return jsonify({"error": f"Both APIs failed: {str(e)} ; {str(e2)}"}), 500
+
+    return jsonify({"answer": answer})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
+0.0", port=3000)
