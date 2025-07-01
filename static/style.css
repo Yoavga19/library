@@ -68,3 +68,30 @@ input, button {
   margin: 10px;
   border-radius: 10px;
 }
+.projects-section {
+  padding: 2rem;
+  background-color: #f4f4f4;
+  margin-top: 2rem;
+}
+.project-gallery {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.project-gallery img {
+  width: 200px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.footer {
+  text-align: center;
+  padding: 2rem;
+  background: #222;
+  color: white;
+}
+.footer a {
+  color: #4fc3f7;
+  text-decoration: none;
+}
+
