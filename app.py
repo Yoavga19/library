@@ -33,10 +33,14 @@ business_info = (
 def index():
     return render_template("index.html")
 
+@app.route("/projects")
+def projects():
+    return render_template("projects.html")
+
 @app.route("/services")
 def services():
     return render_template("services.html")
-
+    
 @app.route("/ask", methods=["POST"])
 def ask():
     data = request.get_json()
