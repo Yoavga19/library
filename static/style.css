@@ -129,11 +129,11 @@ input, button {
 }
 
 .carousel-btn.prev {
-  left: -50px; /* מחוץ למסגרת */
+  left: -25px; /* מחוץ למסגרת */
 }
 
 .carousel-btn.next {
-  right: -50px; /* מחוץ למסגרת */
+  right: -25px; /* מחוץ למסגרת */
 }
 
 
