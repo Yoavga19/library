@@ -103,6 +103,18 @@ input, button {
   border-radius: 16px;
 }
 
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-track img {
+  width: 100%;
+  height: 65vh;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
 .carousel-btn {
   position: absolute;
   top: 50%;
