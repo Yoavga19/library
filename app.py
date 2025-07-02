@@ -9,27 +9,15 @@ TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY")
 TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
 TOGETHER_MODEL = "mistralai/Mixtral-8x7B-Instruct-v0.1"
 
-business_info = {
-    "style": "ענה בקצרה, רק אם נשאל. אל תנדב מידע שלא התבקש.",
-    "about": (
-        "הבוט מבוסס על שירותי AI חיצוניים כמו OpenAI או Hugging Face. "
-        "לשימוש מלא נדרש מפתח API (API Key) בתשלום מצד הלקוח. "
-        "הגרסה באתר פועלת באופן בסיסי ולצורכי הדגמה בלבד."
-    ),
-    "pricing_note": (
-        "למחירון מלא של שירותי בניית אתרים, בוטים עם או בלי AI, ניתן להיכנס לעמוד: "
-        "https://webfirst-zk72.onrender.com/services"
-    ),
-    "contact": {
-        "email": "nextwaveaiandweb@gmail.com",
-        "fiverr": "https://www.fiverr.com/yoavga"
-    },
-    "message_if_asked": (
-        "💡 שים לב: אני מבוסס על מודל AI חיצוני. לשימוש מלא צריך לספק API Key פרטי. "
-        "המחירים והשירותים זמינים כאן: https://webfirst-zk72.onrender.com/services. "
-        "לשאלות או הזמנות: yoavwebdev@gmail.com או דרך Fiverr."
-    )
-}
+business_info = (
+    "The bot is based on external AI services like OpenAI or Hugging Face. "
+    "Full usage requires a paid API Key provided by the client. "
+    "The version on this site is basic and for demonstration purposes only. "
+    "For the full price list of website, bot, and AI bot services, visit: "
+    "https://webfirst-zk72.onrender.com/services "
+    "For questions or orders, contact: yoavwebdev@gmail.com or via Fiverr: "
+    "https://www.fiverr.com/yoavgablinger"
+)
 
 
 @app.route("/")
