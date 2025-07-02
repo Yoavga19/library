@@ -132,7 +132,7 @@ button:hover {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,0,0,0.5);
+  background: none;
   border: none;
   color: white;
   font-size: 2rem;
@@ -143,11 +143,11 @@ button:hover {
 }
 
 .carousel-btn.prev {
-  left: 10px;
+  left: 250px;
 }
 
 .carousel-btn.next {
-  right: -180px;
+  right: -250px;
 }
 
 /* === Footer === */
