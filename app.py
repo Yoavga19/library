@@ -10,13 +10,15 @@ TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
 TOGETHER_MODEL = "mistralai/Mixtral-8x7B-Instruct-v0.1"
 
 business_info = (
-    "The bot is based on external AI services like OpenAI or Hugging Face. "
-    "Full usage requires a paid API Key provided by the client. "
-    "The version on this site is basic and for demonstration purposes only. "
-    "For the full price list of website, bot, and AI bot services, visit: "
-    "https://webfirst-zk72.onrender.com/services "
-    "For questions or orders, contact: yoavwebdev@gmail.com or via Fiverr: "
-    "https://www.fiverr.com/yoavgablinger"
+    "Our services and starting prices are:\n"
+    "- Website Only: Basic $80, Standard $150, Pro $250\n"
+    "- Bot Only (No AI): Basic $60, Standard $100, Pro $160\n"
+    "- Bot with AI: Basic $120, Standard $200, Pro $300\n"
+    "- Website + Bot: Basic $160, Standard $280, Pro $420\n"
+    "- Website + AI Bot: Basic $200, Standard $340, Pro $500\n\n"
+    "All services include setup, basic support, and responsive design.\n"
+    "For AI bots, clients provide their own API key.\n\n"
+    "For contact, email and Fiverr links are available at the bottom of the main page.answer what the usre asked for and not more"
 )
 
 
