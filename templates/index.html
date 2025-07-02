@@ -88,18 +88,7 @@
         form.dispatchEvent(new Event("submit"));
       }
     });
-  </script>
-  <div class="carousel">
-  <button class="prev" onclick="moveSlide(-1)">❮</button>
-  <div class="carousel-track">
-    <img src="/static/project1.jpg" alt="Project 1" />
-    <img src="/static/project2.jpg" alt="Project 2" />
-    <img src="/static/project3.jpg" alt="Project 3" />
-  </div>
-  <button class="next" onclick="moveSlide(1)">❯</button>
-</div>
-
-<script>
+ 
   let slideIndex = 0;
   const track = document.querySelector(".carousel-track");
   const slides = document.querySelectorAll(".carousel-track img");
