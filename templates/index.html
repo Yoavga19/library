@@ -39,29 +39,14 @@
   <section id="projects" class="projects-section">
     <h2>💼 Projects</h2>
     <div class="carousel">
-  <button class="prev" onclick="moveSlide(-1)">❮</button>
-  <div class="carousel-track">
-    <img src="/static/project1.jpg" alt="Project 1" />
-    <img src="/static/project2.jpg" alt="Project 2" />
-    <img src="/static/project3.jpg" alt="Project 3" />
-  </div>
-  <button class="next" onclick="moveSlide(1)">❯</button>
-</div>
-
-<script>
-  let slideIndex = 0;
-  const track = document.querySelector(".carousel-track");
-  const slides = document.querySelectorAll(".carousel-track img");
-
-  function moveSlide(n) {
-    slideIndex = (slideIndex + n + slides.length) % slides.length;
-    track.style.transform = `translateX(-${slideIndex * 100}%)`;
-  }
-
-  moveSlide(0);
-</script>
-
-
+      <button class="carousel-btn prev" onclick="moveSlide(-1)">❮</button>
+      <div class="carousel-track">
+        <img src="/static/project1.jpg" alt="Project 1" />
+        <img src="/static/project2.jpg" alt="Project 2" />
+        <img src="/static/project3.jpg" alt="Project 3" />
+      </div>
+      <button class="carousel-btn next" onclick="moveSlide(1)">❯</button>
+    </div>
   </section>
 
   <footer id="contact" class="footer">
@@ -73,7 +58,9 @@
     </p>
   </footer>
 
+  <!-- Scripts -->
   <script>
+    // Chat functionality
     const chatBox = document.getElementById("chat-box");
     const form = document.getElementById("chat-form");
     const input = document.getElementById("user-input");
@@ -92,13 +79,19 @@
       if (!message) return;
       addMessage("user", message);
       input.value = "";
-      const res = await fetch("/ask", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message }),
-      });
-      const data = await res.json();
-      addMessage("bot", data.answer || "Error");
+
+      try {
+        const res = await fetch("/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message }),
+        });
+
+        const data = await res.json();
+        addMessage("bot", data.answer || "Error");
+      } catch (error) {
+        addMessage("bot", "An error occurred while sending your message.");
+      }
     });
 
     input.addEventListener("keypress", (e) => {
@@ -107,18 +100,19 @@
         form.dispatchEvent(new Event("submit"));
       }
     });
- 
-  let slideIndex = 0;
-  const track = document.querySelector(".carousel-track");
-  const slides = document.querySelectorAll(".carousel-track img");
 
-  function moveSlide(n) {
-    slideIndex = (slideIndex + n + slides.length) % slides.length;
-    track.style.transform = `translateX(-${slideIndex * 100}%)`;
-  }
+    // Carousel functionality
+    let slideIndex = 0;
+    const track = document.querySelector(".carousel-track");
+    const slides = document.querySelectorAll(".carousel-track img");
 
-  moveSlide(0);
-</script>
+    function moveSlide(n) {
+      slideIndex = (slideIndex + n + slides.length) % slides.length;
+      track.style.transform = `translateX(-${slideIndex * 100}%)`;
+    }
 
+    // Initialize carousel
+    moveSlide(0);
+  </script>
 </body>
 </html>
