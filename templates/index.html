@@ -39,14 +39,28 @@
   <section id="projects" class="projects-section">
     <h2>💼 Projects</h2>
     <div class="carousel">
-  <button class="carousel-btn prev" onclick="moveSlide(-1)">❮</button>
+  <button class="prev" onclick="moveSlide(-1)">❮</button>
   <div class="carousel-track">
     <img src="/static/project1.jpg" alt="Project 1" />
     <img src="/static/project2.jpg" alt="Project 2" />
     <img src="/static/project3.jpg" alt="Project 3" />
   </div>
-  <button class="carousel-btn next" onclick="moveSlide(1)">❯</button>
+  <button class="next" onclick="moveSlide(1)">❯</button>
 </div>
+
+<script>
+  let slideIndex = 0;
+  const track = document.querySelector(".carousel-track");
+  const slides = document.querySelectorAll(".carousel-track img");
+
+  function moveSlide(n) {
+    slideIndex = (slideIndex + n + slides.length) % slides.length;
+    track.style.transform = `translateX(-${slideIndex * 100}%)`;
+  }
+
+  moveSlide(0);
+</script>
+
 
   </section>
 
