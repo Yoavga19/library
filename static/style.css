@@ -1,101 +1,70 @@
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
+  margin: 0;
+  padding: 0;
+  background: #f5f5f5;
 }
 
 header {
-  background: #0e1e40;
-  padding: 20px;
+  background: #2b2b2b;
   color: white;
+  padding: 20px;
   text-align: center;
 }
 
 nav a {
+  color: #fff;
   margin: 0 15px;
-  color: #ddd;
   text-decoration: none;
 }
 
 .flex-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   padding: 20px;
 }
 
 .content-area {
-  flex: 1;
-  min-width: 300px;
-  margin-right: 20px;
+  flex: 2;
+  padding-right: 30px;
 }
 
 .chat-area {
   flex: 1;
-  min-width: 300px;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 10px;
+  max-height: 500px;
+  overflow: auto;
 }
 
 #chat-box {
   border: 1px solid #ccc;
-  padding: 10px;
   height: 300px;
   overflow-y: auto;
-  background: white;
+  padding: 10px;
   margin-bottom: 10px;
+  background: #f9f9f9;
 }
 
-form {
-  display: flex;
+.user {
+  text-align: right;
+  color: blue;
 }
 
-input[type="text"] {
-  flex: 1;
+.bot {
+  text-align: left;
+  color: green;
+}
+
+input, button {
   padding: 10px;
-}
-
-button {
-  padding: 10px;
-  background: #0e1e40;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.carousel-container {
-  position: relative;
-  width: 90%;
-  max-width: 1000px;
-  margin: 60px auto;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-}
-
-.carousel-track {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-
-.carousel-track img {
+  margin-top: 5px;
   width: 100%;
-  height: 60vh;
-  object-fit: cover;
-  flex-shrink: 0;
 }
 
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0,0,0,0.4);
-  color: white;
-  font-size: 2.5rem;
-  border: none;
-  cursor: pointer;
-  z-index: 5;
-  padding: 8px 12px;
+.gallery img {
+  width: 30%;
+  margin: 10px;
+  border-radius: 10px;
 }
-
-.carousel-btn.prev { left: 10px; }
-.carousel-btn.next { right: 10px; }
