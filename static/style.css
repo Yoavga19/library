@@ -147,7 +147,7 @@ button:hover {
 }
 
 .carousel-btn.next {
-  right: 40px;
+  right: -180px;
 }
 
 /* === Footer === */
