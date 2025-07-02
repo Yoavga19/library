@@ -1,10 +1,13 @@
+/* === Base === */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   background: #f5f5f5;
+  color: #333;
 }
 
+/* === Header & Navigation === */
 header {
   background: #2b2b2b;
   color: white;
@@ -12,24 +15,38 @@ header {
   text-align: center;
 }
 
+nav {
+  margin-top: 10px;
+}
+
 nav a {
   color: #fff;
   margin: 0 15px;
   text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
 }
 
+nav a:hover {
+  color: #00bcd4;
+}
+
+/* === Layout === */
 .flex-container {
   display: flex;
+  flex-wrap: wrap;
   padding: 20px;
+  gap: 20px;
 }
 
 .content-area {
   flex: 2;
-  padding-right: 30px;
+  min-width: 250px;
 }
 
 .chat-area {
   flex: 1;
+  min-width: 250px;
   background: #fff;
   border: 1px solid #ccc;
   padding: 15px;
@@ -38,6 +55,7 @@ nav a {
   overflow: auto;
 }
 
+/* === Chat Box === */
 #chat-box {
   border: 1px solid #ccc;
   height: 300px;
@@ -45,26 +63,113 @@ nav a {
   padding: 10px;
   margin-bottom: 10px;
   background: #f9f9f9;
+  border-radius: 5px;
 }
 
 .user {
   text-align: right;
-  color: blue;
+  color: #007bff;
+  margin-bottom: 5px;
 }
 
 .bot {
   text-align: left;
-  color: green;
+  color: #28a745;
+  margin-bottom: 5px;
 }
 
-input, button {
+/* === Inputs === */
+input[type="text"], button {
   padding: 10px;
   margin-top: 5px;
   width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
-.gallery img {
-  width: 30%;
-  margin: 10px;
+button {
+  background-color: #2b2b2b;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #444;
+}
+
+/* === Carousel === */
+.projects-section {
+  padding: 40px 20px;
+  background: #fff;
+  text-align: center;
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  overflow: hidden;
   border-radius: 10px;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-track img {
+  width: 100%;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.carousel-btn.prev {
+  left: 10px;
+}
+
+.carousel-btn.next {
+  right: 10px;
+}
+
+/* === Footer === */
+.footer {
+  background: #2b2b2b;
+  color: white;
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.footer a {
+  color: #00bcd4;
+  text-decoration: none;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .flex-container {
+    flex-direction: column;
+  }
+
+  .carousel-btn {
+    font-size: 1.5rem;
+  }
 }
