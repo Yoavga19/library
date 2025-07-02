@@ -21,8 +21,8 @@ business_info = {
         "https://webfirst-zk72.onrender.com/services"
     ),
     "contact": {
-        "email": "yoavwebdev@gmail.com",
-        "fiverr": "https://www.fiverr.com/yoavgablinger"
+        "email": "nextwaveaiandweb@gmail.com",
+        "fiverr": "https://www.fiverr.com/yoavga"
     },
     "message_if_asked": (
         "💡 שים לב: אני מבוסס על מודל AI חיצוני. לשימוש מלא צריך לספק API Key פרטי. "
