@@ -134,7 +134,7 @@ button:hover {
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: white;
+  color: black;
   font-size: 2rem;
   cursor: pointer;
   z-index: 10;
