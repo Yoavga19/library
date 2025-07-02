@@ -1,5 +1,3 @@
-# קובץ: app.py
-
 from flask import Flask, request, jsonify, render_template
 import requests
 import os
@@ -30,6 +28,14 @@ def services():
 @app.route("/projects")
 def projects():
     return render_template("projects.html")
+
+# Catch-all route to allow direct URL access to templates
+@app.route('/<path:path>')
+def catch_all(path):
+    try:
+        return render_template(f"{path}.html")
+    except:
+        return render_template("index.html")
 
 @app.route("/ask", methods=["POST"])
 def ask():
