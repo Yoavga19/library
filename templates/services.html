@@ -2,8 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Our Services - NextWave</title>
+  <title>Our Services - NextWave AI & Web</title>
   <link rel="stylesheet" href="/static/style.css" />
+  <style>
+    /* שירותים - עיצוב ספציפי לדף הזה */
+    .services-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #222;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2b2b2b;
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 2.8rem;
+      letter-spacing: 1.5px;
+    }
+
+    .service-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      padding: 30px 25px;
+      margin-bottom: 30px;
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+
+    .service-title {
+      font-size: 1.8rem;
+      color: #007bff;
+      margin-bottom: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .service-description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    .price {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #28a745;
+    }
+
+    .note {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #555;
+      font-style: italic;
+    }
+
+    /* כפתור CTA */
+    .contact-btn {
+      display: block;
+      width: fit-content;
+      margin: 30px auto 0;
+      padding: 12px 40px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 30px;
+      box-shadow: 0 5px 15px rgba(0,123,255,0.4);
+      transition: background-color 0.3s ease;
+      font-size: 1.1rem;
+    }
+
+    .contact-btn:hover {
+      background-color: #0056b3;
+      box-shadow: 0 8px 20px rgba(0,86,179,0.6);
+    }
+
+    /* ריספונסיביות */
+    @media (max-width: 768px) {
+      .services-container {
+        padding: 0 15px;
+      }
+      .service-card {
+        padding: 20px 15px;
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+      .service-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -16,14 +114,22 @@
     </nav>
   </header>
 
-  <main class="content">
-    <h2>What We Offer</h2>
-    <ul>
-      <li><strong>Custom Websites</strong> – Modern, responsive, mobile-friendly.</li>
-      <li><strong>AI Chatbots</strong> – Smart bots for websites, WhatsApp, Telegram & more.</li>
-      <li><strong>Advanced Packages</strong> – Site + AI Integration + Hosting setup.</li>
-    </ul>
-    <p>Want something unique? Contact us or chat with the bot!</p>
-  </main>
-</body>
-</html>
+  <section class="services-container">
+    <article class="service-card">
+      <h2 class="service-title">🌐 Custom Website Development</h2>
+      <p class="service-description">
+        We create modern, fast, and fully responsive websites tailored to your business goals.
+        Whether you need a sleek landing page, a professional portfolio, or a complex e-commerce platform,
+        our websites are built with the latest technologies for optimal performance and user experience.
+      </p>
+      <p class="price">Starting at $80</p>
+      <p class="note">
+        * All websites are mobile-friendly and SEO-optimized.<br />
+        * Delivery time depends on project complexity.
+      </p>
+    </article>
+
+    <article class="service-card">
+      <h2 class="service-title">🤖 AI Chatbot Integration</h2>
+      <p class="service-description">
+        Enhance your customer engagement with
