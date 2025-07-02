@@ -9,13 +9,28 @@ TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY")
 TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
 TOGETHER_MODEL = "mistralai/Mixtral-8x7B-Instruct-v0.1"
 
-business_info = (
-    "You are a chatbot for 'NextWave AI & Web'.\n"
-    "Services: custom websites, AI-powered bots.\n"
-    "Pricing: websites from $80, bots from $120.\n"
-    "Contact via Fiverr or email.\n"
-    "Answer only about NextWave."
-)
+business_info = {
+    "style": "ענה בקצרה, רק אם נשאל. אל תנדב מידע שלא התבקש.",
+    "about": (
+        "הבוט מבוסס על שירותי AI חיצוניים כמו OpenAI או Hugging Face. "
+        "לשימוש מלא נדרש מפתח API (API Key) בתשלום מצד הלקוח. "
+        "הגרסה באתר פועלת באופן בסיסי ולצורכי הדגמה בלבד."
+    ),
+    "pricing_note": (
+        "למחירון מלא של שירותי בניית אתרים, בוטים עם או בלי AI, ניתן להיכנס לעמוד: "
+        "https://webfirst-zk72.onrender.com/services"
+    ),
+    "contact": {
+        "email": "yoavwebdev@gmail.com",
+        "fiverr": "https://www.fiverr.com/yoavgablinger"
+    },
+    "message_if_asked": (
+        "💡 שים לב: אני מבוסס על מודל AI חיצוני. לשימוש מלא צריך לספק API Key פרטי. "
+        "המחירים והשירותים זמינים כאן: https://webfirst-zk72.onrender.com/services. "
+        "לשאלות או הזמנות: yoavwebdev@gmail.com או דרך Fiverr."
+    )
+}
+
 
 @app.route("/")
 def index():
