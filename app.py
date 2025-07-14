@@ -1,13 +1,13 @@
 from flask import Flask, request, jsonify, render_template
-import requests
 import os
+from openai import AzureOpenAI
 
 app = Flask(__name__)
 
-# טוקנים מהסביבה
-TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY")
-TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
-TOGETHER_MODEL = "mistralai/Mixtral-8x7B-Instruct-v0.1"
+# הגדרת TOKEN ו־ENDPOINT ל־GitHub Models
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+ENDPOINT = "https://models.github.ai/inference"
+MODEL_NAME = "openai/gpt-4.1"
 
 business_info = (
     "Our services and starting prices are:\n"
@@ -18,9 +18,14 @@ business_info = (
     "- Website + AI Bot: Basic $200, Standard $340, Pro $500\n\n"
     "All services include setup, basic support, and responsive design.\n"
     "For AI bots, clients provide their own API key.\n\n"
-    "For contact, email and Fiverr links are available at the bottom of the main page.answer what the usre asked for and not more"
+    "For contact, email and Fiverr links are available at the bottom of the main page. Answer what the user asked for and not more."
 )
 
+client = AzureOpenAI(
+    api_key=GITHUB_TOKEN,
+    azure_endpoint=ENDPOINT,
+    api_version="2024-02-01"  # חובה. תאריך גנרי מתאים
+)
 
 @app.route("/")
 def index():
@@ -34,7 +39,6 @@ def services():
 def projects():
     return render_template("projects.html")
 
-# Catch-all route to allow direct URL access to templates
 @app.route('/<path:path>')
 def catch_all(path):
     try:
@@ -42,34 +46,27 @@ def catch_all(path):
     except:
         return render_template("index.html")
 
+
 @app.route("/ask", methods=["POST"])
 def ask():
     data = request.get_json()
     user_message = data.get("message", "")
 
-    headers = {
-        "Authorization": f"Bearer {TOGETHER_API_KEY}",
-        "Content-Type": "application/json"
-    }
-
-    payload = {
-        "model": TOGETHER_MODEL,
-        "messages": [
-            {"role": "system", "content": business_info},
-            {"role": "user", "content": user_message}
-        ],
-        "temperature": 0.7,
-        "max_tokens": 100
-    }
-
     try:
-        response = requests.post(TOGETHER_API_URL, headers=headers, json=payload)
-        response.raise_for_status()
-        output = response.json()
-        if "choices" in output:
-            return jsonify({"answer": output["choices"][0]["message"]["content"].strip()})
+        chat_completion = client.chat.completions.create(
+            model=MODEL_NAME,
+            messages=[
+                {"role": "system", "content": business_info},
+                {"role": "user", "content": user_message}
+            ],
+            temperature=0.7,
+            max_tokens=100
+        )
+        answer = chat_completion.choices[0].message.content.strip()
+        return jsonify({"answer": answer})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
