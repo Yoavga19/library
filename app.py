@@ -59,12 +59,19 @@ def ask():
             temperature=0.7,
             max_tokens=100
         )
+        print(chat_completion)  # לראות בלוג מה חזר
         answer = chat_completion.choices[0].message.content.strip()
         return jsonify({"answer": answer})
     except Exception as e:
         import traceback
         print(traceback.format_exc())
         return jsonify({"error": str(e)}), 500
+
+
+# בדיקת TOKEN
+@app.route("/check-token")
+def check_token():
+    return jsonify({"token": GITHUB_TOKEN})
 
 
 if __name__ == "__main__":
