@@ -1,10 +1,9 @@
 from flask import Flask, request, jsonify, render_template
 import os
-from openai import AzureOpenAI
+import openai
 
 app = Flask(__name__)
 
-# הגדרת TOKEN ו־ENDPOINT ל־GitHub Models
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 ENDPOINT = "https://models.github.ai/inference"
 MODEL_NAME = "openai/gpt-4.1"
@@ -21,11 +20,9 @@ business_info = (
     "For contact, email and Fiverr links are available at the bottom of the main page. Answer what the user asked for and not more."
 )
 
-client = AzureOpenAI(
-    api_key=GITHUB_TOKEN,
-    azure_endpoint=ENDPOINT,
-    api_version="2024-02-01"  # חובה. תאריך גנרי מתאים
-)
+# הגדרות ל־GitHub Models
+openai.base_url = ENDPOINT
+openai.api_key = GITHUB_TOKEN
 
 @app.route("/")
 def index():
@@ -53,7 +50,7 @@ def ask():
     user_message = data.get("message", "")
 
     try:
-        chat_completion = client.chat.completions.create(
+        chat_completion = openai.chat.completions.create(
             model=MODEL_NAME,
             messages=[
                 {"role": "system", "content": business_info},
@@ -65,6 +62,8 @@ def ask():
         answer = chat_completion.choices[0].message.content.strip()
         return jsonify({"answer": answer})
     except Exception as e:
+        import traceback
+        print(traceback.format_exc())
         return jsonify({"error": str(e)}), 500
 
 
