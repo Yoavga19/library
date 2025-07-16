@@ -64,6 +64,7 @@ def ask():
         return jsonify({"answer": answer})
     except Exception as e:
         import traceback
+        print("---- GITHUB TOKEN:", GITHUB_TOKEN)
         print(traceback.format_exc())
         return jsonify({"error": str(e)}), 500
 
