@@ -17,8 +17,14 @@ business_info = (
     "- Website + AI Bot: Basic $200, Standard $340, Pro $500\n\n"
     "All services include setup, basic support, and responsive design.\n"
     "For AI bots, clients provide their own API key.\n\n"
-    "For contact, email and Fiverr links are available at the bottom of the main page. Answer what the user asked for and not more."
+    "Note: I am a developer with some experience (not expert).\n"
+    "The website and Fiverr profile linked below are examples of my work.\n\n"
+    "Contact:\n"
+    "Email: nextwaveaiandweb@gmail.com\n"
+    "Fiverr: https://www.fiverr.com/sellers/yoavga/edit\n\n"
+    "Answer only what the user asks without adding extra information."
 )
+
 
 @app.route("/")
 def index():
