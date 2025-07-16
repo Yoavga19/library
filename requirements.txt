@@ -1,4 +1,3 @@
-openai
 Flask
 requests
 gunicorn
