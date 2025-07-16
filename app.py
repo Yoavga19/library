@@ -1,6 +1,6 @@
+import requests
 from flask import Flask, request, jsonify, render_template
 import os
-import openai
 
 app = Flask(__name__)
 
@@ -20,28 +20,9 @@ business_info = (
     "For contact, email and Fiverr links are available at the bottom of the main page. Answer what the user asked for and not more."
 )
 
-# הגדרות ל־GitHub Models
-openai.base_url = ENDPOINT
-openai.api_key = GITHUB_TOKEN
-
 @app.route("/")
 def index():
     return render_template("index.html")
-
-@app.route("/services")
-def services():
-    return render_template("services.html")
-
-@app.route("/projects")
-def projects():
-    return render_template("projects.html")
-
-@app.route('/<path:path>')
-def catch_all(path):
-    try:
-        return render_template(f"{path}.html")
-    except:
-        return render_template("index.html")
 
 
 @app.route("/ask", methods=["POST"])
@@ -49,27 +30,33 @@ def ask():
     data = request.get_json()
     user_message = data.get("message", "")
 
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "model": MODEL_NAME,
+        "messages": [
+            {"role": "system", "content": business_info},
+            {"role": "user", "content": user_message}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 100
+    }
+
     try:
-        chat_completion = openai.chat.completions.create(
-            model=MODEL_NAME,
-            messages=[
-                {"role": "system", "content": business_info},
-                {"role": "user", "content": user_message}
-            ],
-            temperature=0.7,
-            max_tokens=100
-        )
-        print(chat_completion)  # לראות בלוג מה חזר
-        answer = chat_completion.choices[0].message.content.strip()
+        response = requests.post(f"{ENDPOINT}/v1/chat/completions", headers=headers, json=payload)
+        response.raise_for_status()
+        output = response.json()
+        answer = output["choices"][0]["message"]["content"].strip()
         return jsonify({"answer": answer})
     except Exception as e:
         import traceback
-        print("---- GITHUB TOKEN:", GITHUB_TOKEN)
         print(traceback.format_exc())
         return jsonify({"error": str(e)}), 500
 
 
-# בדיקת TOKEN
 @app.route("/check-token")
 def check_token():
     return jsonify({"token": GITHUB_TOKEN})
